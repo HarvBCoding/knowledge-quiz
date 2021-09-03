@@ -1,1 +1,1 @@
-# knowledgequiz
+# knowledge-quiz
