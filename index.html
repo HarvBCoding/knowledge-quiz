@@ -4,22 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Javascript Knowledge Quiz</title>
+    <title>JavaScript Knowledge Quiz</title>
 </head>
 <body>
-
-    <h1>Test Your JavaScript Knowledge</h1>
-    <button id="start-btn" class="start-btn">Start Quiz</button>
-    <!-- needs to be a gap between so when that start button is clicked the page auto-scrolls to quiz  -->
-
-    <!-- div to show quiz -->
-    <div id="quiz-container" class="quiz-container"></div>
-    <!-- submit button -->
-    <button id="submit-btn" class="submit-btn">Submit</button>
-    <!-- div to display results -->
-    <div id="results-container" class="results-container"></div>
+    <!-- starting page; timer will start and page will auto scroll to the questions once the start button is clicked-->
+    <h1 class="main-title">JavaScript Knowledge Quiz</h1>
+    <p class="main-content">Test your JavaScript knowledge with a timed quiz! Hurry and answer the questions before the time runs out! Save your high score!</p>
+    <button id="start-btn" class="start-btn">Start!</button>
 
 
-    <script src="./assets/js/script.js"></script>
+
+
+
+
+
+    <div id="quiz-container"></div>
+    <button id="submit-btn">Submit Quiz</button>
+    <div id="results-container"></div>
+
+
+
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
