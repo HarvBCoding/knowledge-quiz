@@ -52,26 +52,70 @@ const quizQuestions = [
 ]
 
 const displayQuiz = () => {
+    
     // for each question
     quizQuestions.forEach(
         (currentQuestion, questionNumber) => {
-        for(letter in currentQuestion.answers) {
-            // add a radio button
-            quizDivEl.innerHTML = `<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter} : 
-            ${currentQuestion.answers[letter]}
-            </label>`
-        }
-    })
+            // create element to hold question
+            let questionEl = document.createElement("div");
+            questionEl.className = "question";
+            questionEl.innerHTML =
+                `<h3 class="question-main">${currentQuestion.question}<h3>`;   
+            quizDivEl.appendChild(questionEl)    ;
+            for(letter in currentQuestion.answers) {
+                // create element to hold answer options
+                let answerOption = document.createElement("p");
+                answerOption.className = "answer-option";
+                // add a radio button
+                answerOption.innerHTML = 
+                    `<label>
+                    <input type="radio" name="question${questionNumber}" value="${letter}">
+                    ${letter} :
+                    ${currentQuestion.answers[letter]}`
+                    quizDivEl.appendChild(answerOption);
+            }   
+        })
 };
 
 const displayResults = () => {
 
+    // get user answers from containers
+    const answerContainers = quizDivEl.querySelectorAll('.answer-option');
+    
+    // keep score
+    let finalScore = 0;
+
+    // for each question
+    quizQuestions.forEach( (currentQuestion, questionNumber) => {
+
+        // find all answers
+        const answerContainer = answerContainers[questionNumber];
+        // get selected user answer
+        const selector = `input[name=question${questionNumber}]:checked`;
+        console.log(selector);
+        // get the selected radio button, if blank return empty
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+        // if answer is correct
+        if (userAnswer === currentQuestion.correctAnswer) {
+            // add to final score
+            finalScore++;
+
+            // color answers green
+            answerContainers[questionNumber].style.color = 'green';
+        } else {
+            // if the answer is wrong or left blank
+
+            // color the answers red
+            answerContainers[questionNumber].style.color = 'red';
+            debugger;
+        }
+
+    });
+    // show number of correct answers out of total
+    resultsDivEl.innerHTML =
+        `${finalScore} out of ${quizQuestions.length}`;
 };
-
-displayQuiz();
-
 
 // on click the quiz will start
 startButton.addEventListener("click", displayQuiz);
