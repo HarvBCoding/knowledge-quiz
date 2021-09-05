@@ -64,7 +64,7 @@ const displayQuiz = () => {
             quizDivEl.appendChild(questionEl)    ;
             for(letter in currentQuestion.answers) {
                 // create element to hold answer options
-                let answerOption = document.createElement("p");
+                let answerOption = document.createElement("div");
                 answerOption.className = "answer-option";
                 // add a radio button
                 answerOption.innerHTML = 
@@ -72,50 +72,26 @@ const displayQuiz = () => {
                     <input type="radio" name="question${questionNumber}" value="${letter}">
                     ${letter} :
                     ${currentQuestion.answers[letter]}`
-                    quizDivEl.appendChild(answerOption);
+                    questionEl.appendChild(answerOption);
             }   
         })
 };
 
 const displayResults = () => {
-
-    // get user answers from containers
-    const answerContainers = quizDivEl.querySelectorAll('.answer-option');
-    
-    // keep score
-    let finalScore = 0;
-
-    // for each question
-    quizQuestions.forEach( (currentQuestion, questionNumber) => {
-
-        // find all answers
-        const answerContainer = answerContainers[questionNumber];
-        // get selected user answer
-        const selector = `input[name=question${questionNumber}]:checked`;
-        console.log(selector);
-        // get the selected radio button, if blank return empty
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-        // if answer is correct
-        if (userAnswer === currentQuestion.correctAnswer) {
-            // add to final score
-            finalScore++;
-
-            // color answers green
-            answerContainers[questionNumber].style.color = 'green';
-        } else {
-            // if the answer is wrong or left blank
-
-            // color the answers red
-            answerContainers[questionNumber].style.color = 'red';
-            debugger;
+    // get all answer containers
+    let answerButton = document.getElementsByTagName('input');
+    for (let i = 0; i < answerButton.length; i++) {
+        if(answerButton[i].checked) {
+            let userAnswer = answerButton[i].value;
+            return userAnswer;
         }
-
-    });
-    // show number of correct answers out of total
-    resultsDivEl.innerHTML =
-        `${finalScore} out of ${quizQuestions.length}`;
+        if(userAnswer = quizQuestions.correctAnswer) {
+            console.log("it worked!");
+        }
+    }
 };
+
+displayQuiz();
 
 // on click the quiz will start
 startButton.addEventListener("click", displayQuiz);
