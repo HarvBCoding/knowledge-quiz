@@ -86,7 +86,7 @@ function startQuiz(){
     answerOption.className = "answer-option";
     answerOption.innerHTML =
         `<label>
-        <input type="radio" name="question0" value="c">
+        <input type="radio" name="question0" value="b">
         ${quizQuestions[0].answers.c}`
         questionEl.appendChild(answerOption);
 
@@ -115,15 +115,12 @@ function countdown() {
 quizDivEl.addEventListener("click", nextQuestion);
 
 function nextQuestion(){
-    // current function
     // let anAnswer = event.target.getElementsByClassName("answer-option");
     let userAnswer = event.target.value;
-    console.log(userAnswer);
-    console.log(quizQuestions[0].correctAnswer)
     if (userAnswer === quizQuestions[0].correctAnswer) {
         console.log("You're right");
     } else if (userAnswer !== quizQuestions[0].correctAnswer) {
-        console.log("You're wrong");
+        console.log("You're wrong")
     };
     
     
