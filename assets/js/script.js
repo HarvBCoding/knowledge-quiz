@@ -57,6 +57,7 @@ const quizQuestions = [
 function startQuiz(){
     //put a question on the page.
     let questionEl = document.createElement("div");
+    questionEl.className = "question-answer";
     questionEl.innerHTML = 
         `<h3 class="question">${quizQuestions[0].question}</h3>`;
     quizDivEl.appendChild(questionEl);
@@ -85,7 +86,7 @@ function startQuiz(){
     answerOption.className = "answer-option";
     answerOption.innerHTML =
         `<label>
-        <input type="radio" name="question0" value="b">
+        <input type="radio" name="question0" value="c">
         ${quizQuestions[0].answers.c}`
         questionEl.appendChild(answerOption);
 
@@ -114,11 +115,18 @@ function countdown() {
 quizDivEl.addEventListener("click", nextQuestion);
 
 function nextQuestion(){
-    const userAnswers = document.querySelector("input[name=question0]:checked".value);
-    console.log(userAnswers);
+    // let anAnswer = event.target.getElementsByClassName("answer-option");
+    let userAnswer = event.target.value;
+    console.log(userAnswer);
+    console.log(quizQuestions[0].correctAnswer)
+    if (userAnswer === quizQuestions[0].correctAnswer) {
+        console.log("You're right");
+    } else if (userAnswer !== quizQuestions[0].correctAnswer) {
+        console.log("You're wrong");
+    };
     
-
-//put the next question on the page if there's another question. Otherwise, show the highscore form.
+    
+    //put the next question on the page if there's another question. Otherwise, show the highscore form.
 }
   
 function endQuiz(){
