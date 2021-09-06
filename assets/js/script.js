@@ -3,6 +3,7 @@ const quizDivEl = document.getElementById('quiz-container');
 const resultsDivEl = document.getElementById('results-container');
 const submitButton = document.getElementById('submit-btn');
 const answersDivEl = document.getElementById('answers-container');
+const timer = document.getElementById('countdown');
 const quizQuestions = [
     {
         question: "random question 1?",
@@ -51,11 +52,6 @@ const quizQuestions = [
     }
 ]
 
-function createRadioBtn(){
-    const radioAnswers = document.createElement("input");
-    radioAnswers.type = "radio";
-    radioAnswers.value
-}
 
 // when the start button is clicked
 function startQuiz(){
@@ -64,6 +60,7 @@ function startQuiz(){
     questionEl.innerHTML = 
         `<h3 class="question">${quizQuestions[0].question}</h3>`;
     quizDivEl.appendChild(questionEl);
+
     // put answers for question on the page
     // option a
     let answerOption = document.createElement("div");
@@ -73,25 +70,27 @@ function startQuiz(){
         <input type="radio" name="question0" value="a">
         ${quizQuestions[0].answers.a}`
         questionEl.appendChild(answerOption);
+
     // option b
     answerOption = document.createElement("div");
     answerOption.className = "answer-option";
     answerOption.innerHTML =
         `<label>
-        <input type="radio" name="question0" value="a">
+        <input type="radio" name="question0" value="b">
         ${quizQuestions[0].answers.b}`
         questionEl.appendChild(answerOption);
+
     // option c
     answerOption = document.createElement("div");
     answerOption.className = "answer-option";
     answerOption.innerHTML =
         `<label>
-        <input type="radio" name="question0" value="a">
+        <input type="radio" name="question0" value="b">
         ${quizQuestions[0].answers.c}`
         questionEl.appendChild(answerOption);
 
     //start timer.
-
+    countdown();
 }
 
 
@@ -101,18 +100,23 @@ function countdown() {
     let timeInterval = setInterval(function() {
         // if the remaining time is greater than 1
         if (timeLeft > 0) {
+            timer.innerHTML = timeLeft;
             // decrement time left by 1
             timeLeft --
         } else {
+            timer.innerHTML = timeLeft;
             clearInterval(timeInterval);
+            // endGame();
         }
     }, 1000);
 }
-
+// once an answer is clicked the nextQuestion function runs
+quizDivEl.addEventListener("click", nextQuestion);
 
 function nextQuestion(){
-//this function needs to run when a choice button is clicked.
-//determine right or wrong, adjust score/timer however.
+    const userAnswers = document.querySelector("input[name=question0]:checked".value);
+    console.log(userAnswers);
+    
 
 //put the next question on the page if there's another question. Otherwise, show the highscore form.
 }
@@ -125,7 +129,7 @@ function endQuiz(){
 
 // on click the quiz will start
 startButton.addEventListener("click", startQuiz);
-startButton.onclick = countdown;
+
 
 // on click, the results will display
 submitButton.addEventListener("click", endQuiz);
