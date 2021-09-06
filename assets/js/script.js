@@ -2,7 +2,7 @@ const startButton = document.getElementById('start-btn')
 const quizDivEl = document.getElementById('quiz-container');
 const resultsDivEl = document.getElementById('results-container');
 const submitButton = document.getElementById('submit-btn');
-
+const answersDivEl = document.getElementById('answers-container');
 const quizQuestions = [
     {
         question: "random question 1?",
@@ -51,51 +51,28 @@ const quizQuestions = [
     }
 ]
 
-const displayQuiz = () => {
-    
-    // for each question
-    quizQuestions.forEach(
-        (currentQuestion, questionNumber) => {
-            // create element to hold question
-            let questionEl = document.createElement("div");
-            questionEl.className = "question";
-            questionEl.innerHTML =
-                `<h3 class="question-main">${currentQuestion.question}<h3>`;   
-            quizDivEl.appendChild(questionEl)    ;
-            for(letter in currentQuestion.answers) {
-                // create element to hold answer options
-                let answerOption = document.createElement("div");
-                answerOption.className = "answer-option";
-                // add a radio button
-                answerOption.innerHTML = 
-                    `<label>
-                    <input type="radio" name="question${questionNumber}" value="${letter}">
-                    ${letter} :
-                    ${currentQuestion.answers[letter]}`
-                    questionEl.appendChild(answerOption);
-            }   
-        })
-};
+function startQuiz(){
+    quizDivEl.textContent = quizQuestions[0].question;
+    //put a question on the page.
+    //start timer.
+}
 
-const displayResults = () => {
-    // get all answer containers
-    let answerButton = document.getElementsByTagName('input');
-    for (let i = 0; i < answerButton.length; i++) {
-        if(answerButton[i].checked) {
-            let userAnswer = answerButton[i].value;
-            return userAnswer;
-        }
-        if(userAnswer = quizQuestions.correctAnswer) {
-            console.log("it worked!");
-        }
-    }
-};
 
-displayQuiz();
+function nextQuestion(){
+//this function needs to run when a choice button is clicked.
+//determine right or wrong, adjust score/timer however.
+
+//put the next question on the page if there's another question. Otherwise, show the highscore form.
+}
+  
+function endQuiz(){
+//run this when the high score form is submitted.
+//store stuff in localStorage
+//take us to highscores.html
+}
 
 // on click the quiz will start
-startButton.addEventListener("click", displayQuiz);
+startButton.addEventListener("click", startQuiz);
 
 // on click, the results will display
-submitButton.addEventListener("click", displayResults);
-
+submitButton.addEventListener("click", endQuiz);
