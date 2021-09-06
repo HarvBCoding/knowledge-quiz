@@ -115,6 +115,7 @@ function countdown() {
 quizDivEl.addEventListener("click", nextQuestion);
 
 function nextQuestion(){
+    // current function
     // let anAnswer = event.target.getElementsByClassName("answer-option");
     let userAnswer = event.target.value;
     console.log(userAnswer);
