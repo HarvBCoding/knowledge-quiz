@@ -1,65 +1,64 @@
-const startButton = document.getElementById('start-btn')
-const quizDivEl = document.getElementById('quiz-container');
-const resultsDivEl = document.getElementById('results-container');
-const submitButton = document.getElementById('submit-btn');
-const answersDivEl = document.getElementById('answers-container');
-const timer = document.getElementById('countdown');
+let startButton = document.getElementById('start-btn')
+let submitButton = document.getElementById('initials')
+let quizDivEl = document.getElementById('quiz-container');
+let resultsDivEl = document.getElementById('results-container');
+let timer = document.getElementById('countdown');
+let timeLeft = 120;
+let currentQuestion = 0;
+
 const quizQuestions = [
     {
-        question: "random question 1?",
+        question: "The condtion of an if/else statement is enclosed in ____ ?",
         answers: {
-            a: "random answer",
-            b: "random answer",
-            c: "random answer"
+            a: "Curly Brackets {}",
+            b: "Parenthesis ()",
+            c: "Square Brackets []"
         },
         correctAnswer: "b"
     },
     {
-        question: "random question 2?",
+        question: "Which syntax creates single-line comments in JavaScript?",
         answers: {
-            a: "random answer",
-            b: "random answer",
-            c: "random answer"
+            a: "//",
+            b: "*/",
+            c: "/*"
         },
         correctAnswer: "a"
     },
     {
-        question: "random question 3?",
+        question: "Arrays in JavaScript can be used to store _______ ?",
         answers: {
-            a: "random answer",
-            b: "random answer",
-            c: "random answer"
+            a: "Other arrays",
+            b: "Strings",
+            c: "Both"
         },
         correctAnswer: "c"
     },
     {
-        question: "random question 4?",
+        question: "{let x = 14 % 2}; What will x evaluate to?",
         answers: {
-            a: "random answer",
-            b: "random answer",
-            c: "random answer"
+            a: "7",
+            b: "0",
+            c: "28"
         },
         correctAnswer: "b"
     },
     {
-        question: "random question 5?",
+        question: "What is the INCORRECT way of declaring a variable?",
         answers: {
-            a: "random answer",
-            b: "random answer",
-            c: "random answer"
+            a: "const age = 3",
+            b: "let age += 3",
+            c: "var age = '3'"
         },
         correctAnswer: "b"
     }
 ]
 
-
-// when the start button is clicked
-function startQuiz(){
-    //put a question on the page.
+function getQuestion(q) {
     let questionEl = document.createElement("div");
     questionEl.className = "question-answer";
     questionEl.innerHTML = 
-        `<h3 class="question">${quizQuestions[0].question}</h3>`;
+        `<h3 class="question">${quizQuestions[q].question}</h3>`;
     quizDivEl.appendChild(questionEl);
 
     // put answers for question on the page
@@ -69,7 +68,7 @@ function startQuiz(){
     answerOption.innerHTML =
         `<label>
         <input type="radio" name="question0" value="a">
-        ${quizQuestions[0].answers.a}`
+        ${quizQuestions[q].answers.a}`
         questionEl.appendChild(answerOption);
 
     // option b
@@ -78,7 +77,7 @@ function startQuiz(){
     answerOption.innerHTML =
         `<label>
         <input type="radio" name="question0" value="b">
-        ${quizQuestions[0].answers.b}`
+        ${quizQuestions[q].answers.b}`
         questionEl.appendChild(answerOption);
 
     // option c
@@ -87,8 +86,19 @@ function startQuiz(){
     answerOption.innerHTML =
         `<label>
         <input type="radio" name="question0" value="c">
-        ${quizQuestions[0].answers.c}`
+        ${quizQuestions[q].answers.c}`
         questionEl.appendChild(answerOption);
+    
+}
+
+function clearDivs(el) {
+    el.innerHTML = ``;
+}
+
+// when the start button is clicked
+function startQuiz(){
+    //put a question on the page.
+    getQuestion(currentQuestion)
 
     //start timer.
     countdown();
@@ -96,8 +106,7 @@ function startQuiz(){
 
 
 function countdown() {
-    let timeLeft = 50;
-
+    
     let timeInterval = setInterval(function() {
         // if the remaining time is greater than 1
         if (timeLeft > 0) {
@@ -106,37 +115,74 @@ function countdown() {
             timeLeft --
         } else {
             timer.innerHTML = timeLeft;
-            clearInterval(timeInterval);
-            // endGame();
+            clearInterval(timeInterval); 
+            endQuiz();
         }
     }, 1000);
 }
 // once an answer is clicked the nextQuestion function runs
 quizDivEl.addEventListener("click", nextQuestion);
 
-function nextQuestion(q){
+function nextQuestion(){
     // let anAnswer = event.target.getElementsByClassName("answer-option");
+    clearDivs(resultsDivEl)
     let userAnswer = event.target.value;
-    console.log("q", q);
-    if (userAnswer === quizQuestions[0].correctAnswer) {
+    console.log("userAnswer", userAnswer);
+
+    if (userAnswer === quizQuestions[currentQuestion].correctAnswer) {
+
+        resultsDivEl.innerHTML = `<h4>You got it right!</h4>`
         console.log("You're right");
-    } else if (userAnswer !== quizQuestions[0].correctAnswer) {
+    } else {
+        resultsDivEl.innerHTML = `<h4>Sorry! The correct answer is ${quizQuestions[currentQuestion].correctAnswer}!</h4>`
+        timeLeft = timeLeft - 5;
+
+        
+
         console.log("You're wrong")
     };
-    
-    
-    //put the next question on the page if there's another question. Otherwise, show the highscore form.
+    clearDivs(quizDivEl);
+    currentQuestion++;
+    if(currentQuestion < quizQuestions.length)
+        getQuestion(currentQuestion);
+    else
+        endQuiz();
+}
+
+function saveScore() {
+      //store stuff in localStorage
+      score = timeLeft;
+      let storedScores = JSON.parse(localStorage.getItem("highscores")) || [];
+
+      let initials = document.querySelector('[name="initials"]').value;
+      console.log(initials);
+      let user = {
+          name: initials,
+          score: score
+      };
+
+      storedScores.push(user);
+
+      localStorage.setItem("highscores", JSON.stringify(storedScores));
 }
   
-function endQuiz(){
 //run this when the high score form is submitted.
-//store stuff in localStorage
-//take us to highscores.html
+function endQuiz(){
+    clearDivs(resultsDivEl);
+    // grab the time from the countdown div and set it to the score
+    let score = timeLeft;
+    clearDivs(timer);
+    resultsDivEl.innerHTML = `
+    <h1> All Done!</h1>
+    <p> Your final score is ${score}.</p>
+    <form>
+        <label for="initials">Enter your initials</label>
+        <input type="text" id="initials" name="initials">
+        <button type="button" onclick="saveScore(); location.href='./highscores.html'">Submit</button>
+    </form>`
+
 }
 
 // on click the quiz will start
 startButton.addEventListener("click", startQuiz);
 
-
-// on click, the results will display
-submitButton.addEventListener("click", endQuiz);

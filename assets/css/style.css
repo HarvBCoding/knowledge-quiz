@@ -1,0 +1,57 @@
+:root {
+    --main-color: white;
+    --yellow: #ffa502;
+    --light-yellow:#eccc68;
+    --grey: #444444;
+}
+
+* {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--main-color);
+}
+
+a {
+    font-size: large;
+    color: var(--yellow);
+}
+
+.main {
+    text-align: center;
+    color: var(--grey);
+}
+
+.main-title,
+.main-content {
+    margin: 25px;
+}
+
+#start-btn {
+    padding: 10px 45px;
+    font-size: larger;
+    color: var(--grey);
+    background-color: var(--light-yellow);
+    font-weight: bold;
+}
+
+#countdown {
+    color: var(--grey);
+    font-size: x-large;
+    text-align: center;
+    margin: 25px;
+}
+
+.question,
+.answer-option {
+    margin-left: 20px;
+    color: var(--grey);
+    padding: 10px;
+}
+
+#results-container {
+    font-size: 25px;
+    padding: 10px;
+    color: var(--yellow)
+}
