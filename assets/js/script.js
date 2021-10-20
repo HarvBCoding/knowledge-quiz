@@ -4,6 +4,7 @@ let quizDivEl = document.getElementById('quiz-container');
 let resultsDivEl = document.getElementById('results-container');
 let timer = document.getElementById('countdown');
 let timeLeft = 120;
+let quizEnd = false;
 let currentQuestion = 0;
 
 const quizQuestions = [
@@ -109,15 +110,18 @@ function countdown() {
     
     let timeInterval = setInterval(function() {
         // if the remaining time is greater than 1
-        if (timeLeft > 0) {
+        if (quizEnded) {
+            clearInterval(timeInterval);
+            console.log("here");
+        } else if (timeLeft > 0) {
             timer.innerHTML = timeLeft;
             // decrement time left by 1
             timeLeft --
         } else {
-            timer.innerHTML = timeLeft;
             clearInterval(timeInterval); 
             endQuiz();
         }
+        // else if quiz is ended clear time interval
     }, 1000);
 }
 // once an answer is clicked the nextQuestion function runs
@@ -132,15 +136,14 @@ function nextQuestion(){
     if (userAnswer === quizQuestions[currentQuestion].correctAnswer) {
 
         resultsDivEl.innerHTML = `<h4>You got it right!</h4>`
-        console.log("You're right");
+        timeLeft = timeLeft + 5;
+        
     } else {
         resultsDivEl.innerHTML = `<h4>Sorry! The correct answer is ${quizQuestions[currentQuestion].correctAnswer}!</h4>`
         timeLeft = timeLeft - 5;
 
-        
-
-        console.log("You're wrong")
     };
+
     clearDivs(quizDivEl);
     currentQuestion++;
     if(currentQuestion < quizQuestions.length)
@@ -149,9 +152,8 @@ function nextQuestion(){
         endQuiz();
 }
 
-function saveScore() {
+function saveScore(score) {
       //store stuff in localStorage
-      score = timeLeft;
       let storedScores = JSON.parse(localStorage.getItem("highscores")) || [];
 
       let initials = document.querySelector('[name="initials"]').value;
@@ -168,19 +170,18 @@ function saveScore() {
   
 //run this when the high score form is submitted.
 function endQuiz(){
+    quizEnded = true;
     clearDivs(resultsDivEl);
     // grab the time from the countdown div and set it to the score
     let score = timeLeft;
-    clearDivs(timer);
     resultsDivEl.innerHTML = `
     <h1> All Done!</h1>
     <p> Your final score is ${score}.</p>
     <form>
         <label for="initials">Enter your initials</label>
         <input type="text" id="initials" name="initials">
-        <button type="button" onclick="saveScore(); location.href='./highscores.html'">Submit</button>
+        <button type="button" onclick="saveScore(${score}); location.href='./highscores.html'">Submit</button>
     </form>`
-
 }
 
 // on click the quiz will start
