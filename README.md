@@ -28,7 +28,10 @@
 
   
   ## Tests
-  Examples of website functionality: Insert screenschots here
+  Examples of website functionality: 
+  ![HomePage](./READMEimages/HomePage.png)
+  ![QuestionExample](./READMEimages/QuestionExample.png)
+  ![HighScores](./READMEimages/HighScorePage.png)
 
   ## Questions
   If you have any questions or need to report bugs please reach out to me at [HarvBCoding](https://www.github.com/HarvBCoding) or harvey.breania@gmail.com
