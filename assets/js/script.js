@@ -4,7 +4,7 @@ let quizDivEl = document.getElementById('quiz-container');
 let resultsDivEl = document.getElementById('results-container');
 let timer = document.getElementById('countdown');
 let timeLeft = 120;
-let quizEnd = false;
+let quizEnded = false;
 let currentQuestion = 0;
 
 const quizQuestions = [
@@ -110,20 +110,21 @@ function countdown() {
     
     let timeInterval = setInterval(function() {
         // if the remaining time is greater than 1
-        if (quizEnded) {
-            clearInterval(timeInterval);
-            console.log("here");
-        } else if (timeLeft > 0) {
+        if (timeLeft > 0) {
             timer.innerHTML = timeLeft;
             // decrement time left by 1
             timeLeft --
-        } else {
+        } else if (quizEnded) {
             clearInterval(timeInterval); 
+            
+        } else {
+            clearInterval(timeInterval);
             endQuiz();
         }
         // else if quiz is ended clear time interval
     }, 1000);
 }
+
 // once an answer is clicked the nextQuestion function runs
 quizDivEl.addEventListener("click", nextQuestion);
 
@@ -146,7 +147,7 @@ function nextQuestion(){
 
     clearDivs(quizDivEl);
     currentQuestion++;
-    if(currentQuestion < quizQuestions.length)
+    if(currentQuestion < quizQuestions.length) 
         getQuestion(currentQuestion);
     else
         endQuiz();
@@ -157,7 +158,7 @@ function saveScore(score) {
       let storedScores = JSON.parse(localStorage.getItem("highscores")) || [];
 
       let initials = document.querySelector('[name="initials"]').value;
-      console.log(initials);
+      
       let user = {
           name: initials,
           score: score
